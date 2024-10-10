@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Fondo del sobre -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M2,3 L22,3 C22.55,3 23,3.45 23,4 L23,20 C23,20.55 22.55,21 22,21 L2,21 C1.45,21 1,20.55 1,20 L1,4 C1,3.45 1.45,3 2,3 Z" />
+
+    <!-- Lados de la 'M' en rojo -->
+    <path
+        android:fillColor="#D93025"
+        android:pathData="M22,6.84 L14.82,12 L22,17.16 L22,6.84 Z M2,6.84 L9.18,12 L2,17.16 L2,6.84 Z" />
+
+    <!-- Partes superiores de la 'M' en rojo -->
+    <path
+        android:fillColor="#D93025"
+        android:pathData="M12,13.22 L2.08,5.82 C2.37,5.3 2.89,5 3.5,5 L20.5,5 C21.11,5 21.63,5.3 21.92,5.82 L12,13.22 Z" />
+
+    <!-- Triángulo inferior de la 'M' en rojo -->
+    <path
+        android:fillColor="#D93025"
+        android:pathData="M12,13.22 L2,6.84 L2,20 C2,20.55 2.45,21 3,21 L21,21 C21.55,21 22,20.55 22,20 L22,6.84 L12,13.22 Z" />
+
+</vector>
