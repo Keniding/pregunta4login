@@ -1,16 +1,14 @@
 package com.example.pregunta4_login.models
 
-import java.sql.Date
-import java.sql.Time
-import java.sql.Timestamp
+import com.google.gson.annotations.SerializedName
 
 data class Reserva(
-    val idReserva: Int,
-    val idPropietario: Int,
-    val idArea: Int,
-    val fechaReserva: Date,
-    val horaInicio: Time,
-    val horaFin: Time,
-    val fechaCreacion: Timestamp,
-    val estado: Boolean
+    @SerializedName("id_reserva") val idReserva: Int,
+    var estado: String,
+    @SerializedName("fecha_creacion") val fechaCreacion: String,
+    @SerializedName("fecha_reserva") val fechaReserva: String,
+    @SerializedName("hora_fin") val horaFin: String,
+    @SerializedName("hora_inicio") val horaInicio: String,
+    @SerializedName("id_area") val idArea: Int,
+    @SerializedName("id_propietario") val idPropietario: Int
 )

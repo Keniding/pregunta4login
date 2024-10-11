@@ -25,18 +25,30 @@ class PrincipalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_principal)
+
         val welcome:TextView=findViewById(R.id.tv_welcome_message)
         val user=intent.getStringExtra("USER_EXTRA");
         welcome.text="Bienvenido ${user}:"
+
         val personal: CardView =findViewById(R.id.cardPersonal)
+        val reservas:CardView=findViewById(R.id.cardReservas)
+
         val bottomNavigation:BottomNavigationView=findViewById(R.id.bottom_navigation);
         val logout:Button=findViewById(R.id.btn_logout)
-    personal.setOnClickListener{
-        val intent = Intent(this, WorkerActivity::class.java).apply {
-            putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
+
+        personal.setOnClickListener{
+            val intent = Intent(this, WorkerActivity::class.java).apply {
+                putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
+            }
+            startActivity(intent)
         }
-        startActivity(intent)
-    }
+
+        reservas.setOnClickListener{
+            val intent = Intent(this, ReservaActivity::class.java).apply {
+                putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
+            }
+            startActivity(intent)
+        }
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -63,6 +75,8 @@ class PrincipalActivity : AppCompatActivity() {
         logout.setOnClickListener {
             startActivity(Intent(this,LoginActivity::class.java));
         }
+
+
 
 
     }

@@ -49,4 +49,9 @@ dependencies {
     // Retrofit
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+
+    implementation(libs.material.v150)
+
+    implementation(libs.logging.interceptor)
 }

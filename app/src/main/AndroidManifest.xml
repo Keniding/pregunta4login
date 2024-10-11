@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Agregar en el manifest para que se cargue las imagenes de internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Agregar en el manifest para que se pueda acceder al storage -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Agregar en el manifest para que se pueda acceder al storage -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pregunta4login"
         tools:targetApi="31">
+        <activity
+            android:name=".ReservaActivity"
+            android:exported="false" />
         <activity
             android:name=".PersonalRegister"
             android:exported="false" />

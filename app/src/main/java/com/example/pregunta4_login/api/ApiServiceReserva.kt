@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface ApiService {
+interface ApiServiceReserva {
 
     @GET("reservas")
     fun getReservas(): Call<List<Reserva>>
