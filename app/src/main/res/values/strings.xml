@@ -6,6 +6,15 @@
     <string name="recibos">Recibos</string>
     <string name="reparaciones">Reparaciones</string>
     <string name="personal">Personal</string>
+
+    <string name="register_title">Registro de Usuario</string>
+    <string name="nombre_hint">Nombres</string>
+    <string name="dni_hint">DNI</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="contrasena_hint">Contraseña</string>
+    <string name="rol_hint">Rol (número)</string>
+    <string name="register">Registrarse</string>
+
     <string-array name="roles_array">
         <item>Limpieza</item>
         <item>Seguridad</item>

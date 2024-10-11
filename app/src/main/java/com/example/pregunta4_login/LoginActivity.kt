@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,6 +28,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.login_activity)
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         val mail:TextInputEditText=findViewById(R.id.editTextEmail)
         val password:TextInputEditText=findViewById(R.id.editTextPassword)
         val errorMail:TextView=findViewById(R.id.textViewEmailError)
@@ -80,7 +84,9 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this,"En desarrollo",Toast.LENGTH_SHORT).show();
         }
         register.setOnClickListener {
-            Toast.makeText(this,"En desarrollo",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Inicio de registro",Toast.LENGTH_SHORT).show();
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 }

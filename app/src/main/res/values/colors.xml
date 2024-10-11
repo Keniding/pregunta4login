@@ -11,7 +11,13 @@
     <color name="dark_red">#8B0000</color>
     <color name="custom_text_color">#FF6200EE</color>
     <color name="custom_accent_color">#FFBB86FC</color>
-    <color name="light_gray">#FF8989</color>
+    <color name="light_gray">#9F96F6</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorPrimaryLight">#7C4DFF</color>
+
+
+    <color name="background_color">#F5F5F5</color>
+    <color name="primary_text_color">#333333</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="button_background_color">#4CAF50</color>
 </resources>

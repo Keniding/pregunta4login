@@ -32,7 +32,7 @@ class ReservaActivity : ComponentActivity() {
     }
 
     private fun cargarReservas() {
-        RetrofitClient.instance.getReservas().enqueue(object : Callback<List<Reserva>> {
+        RetrofitClient.flaskInstance.getReservas().enqueue(object : Callback<List<Reserva>> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<Reserva>>, response: Response<List<Reserva>>) {
                 if (response.isSuccessful) {

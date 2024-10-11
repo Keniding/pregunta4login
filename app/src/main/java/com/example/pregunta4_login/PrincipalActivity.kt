@@ -77,7 +77,5 @@ class PrincipalActivity : AppCompatActivity() {
         }
 
 
-
-
     }
 }
