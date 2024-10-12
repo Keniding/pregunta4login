@@ -51,8 +51,13 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
 
-
     implementation(libs.material.v150)
 
     implementation(libs.logging.interceptor)
+
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+
+    implementation (libs.androidx.security.crypto)
+
 }

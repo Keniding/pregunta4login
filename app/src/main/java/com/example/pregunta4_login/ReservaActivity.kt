@@ -6,12 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pregunta4_login.adapter.ReservaAdapter
-import com.example.pregunta4_login.config.RetrofitClient
 import com.example.pregunta4_login.models.Reserva
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.Toast
+import com.example.pregunta4_login.services.ApiServiceFactory
 
 class ReservaActivity : ComponentActivity() {
 
@@ -32,7 +32,7 @@ class ReservaActivity : ComponentActivity() {
     }
 
     private fun cargarReservas() {
-        RetrofitClient.flaskInstance.getReservas().enqueue(object : Callback<List<Reserva>> {
+        ApiServiceFactory.flaskInstance.getReservas().enqueue(object : Callback<List<Reserva>> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<Reserva>>, response: Response<List<Reserva>>) {
                 if (response.isSuccessful) {

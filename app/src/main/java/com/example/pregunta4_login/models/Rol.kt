@@ -8,3 +8,8 @@ data class Rol(
     @SerializedName("fecha_creacion") val fechaCreacion: String,
     val estado: Boolean
 )
+{
+    override fun toString(): String {
+        return nombre
+    }
+}

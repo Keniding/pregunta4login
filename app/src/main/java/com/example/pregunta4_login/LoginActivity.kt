@@ -3,6 +3,7 @@ package com.example.pregunta4_login
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
@@ -11,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -18,12 +20,21 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isEmpty
 import androidx.core.widget.addTextChangedListener
+import com.example.pregunta4_login.models.Login
 import com.example.pregunta4_login.models.User
+import com.example.pregunta4_login.services.ApiServiceFactory
+import com.example.pregunta4_login.ui.viewmodel.LoginViewModel
+import com.example.pregunta4_login.ui.viewmodel.LoginViewModelFactory
+import com.example.pregunta4_login.utils.saveTokenSecurely
 import com.google.android.material.textfield.TextInputEditText
 
 
 
 class LoginActivity : AppCompatActivity() {
+
+    private val apiServiceFactory = ApiServiceFactory
+    private val loginViewModel: LoginViewModel by viewModels<LoginViewModel> { LoginViewModelFactory(apiServiceFactory) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -62,18 +73,30 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        buttonSignIn.setOnClickListener{
-            if(mail.text.toString()=="admin" && password.text.toString()=="admin"){
-             val user= User("Daniel","admin","admin","administrador");
-                val intent = Intent(this, PrincipalActivity::class.java).apply {
-                    putExtra("USER_EXTRA", user.name)
-                }
-                startActivity(intent)
+        buttonSignIn.setOnClickListener {
+            val email = mail.text.toString()
+            val pass = password.text.toString()
+
+            if (email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            else{
-              Toast.makeText(this,"Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+
+            loginViewModel.login(Login(email, pass)) { message, token ->
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+                if (token != null) {
+                    saveTokenSecurely(this, token)
+                    Log.d("LoginActivity", "Token: $token")
+
+                    Intent(this, PrincipalActivity::class.java).also {
+                        startActivity(it)
+                    }
+                    finish()
+                }
             }
         }
+
         loginGmail.setOnClickListener {
             Toast.makeText(this,"En desarrollo",Toast.LENGTH_SHORT).show();
         }
