@@ -1,38 +1,23 @@
 package com.example.pregunta4_login
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pregunta4_login.models.Personal
-import com.example.pregunta4_login.models.PersonalArray
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-fun getCurrentDate(): String {
-    // Crear una instancia de Calendar en la zona horaria de Lima, Perú
-    val calendar = java.util.Calendar.getInstance(TimeZone.getTimeZone("America/Lima"))
-
-    // Crear el formateador de fecha con la misma zona horaria
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    formatter.timeZone = TimeZone.getTimeZone("America/Lima")
-
-    // Formatear y devolver la fecha actual
-    return formatter.format(calendar.time)
-}
 
 class PersonalRegister : AppCompatActivity() {
     private val REQUEST_IMAGE_PICK = 1
@@ -80,6 +65,8 @@ class PersonalRegister : AppCompatActivity() {
                 val rolSecurity: RadioButton = findViewById(R.id.rb_security)
                 val rolAdmin: RadioButton = findViewById(R.id.rb_admin)
                 var rol = ""
+
+                /*
                 if (rolClean.isChecked) {
                     rol = "Limpieza"
                 }
@@ -151,6 +138,8 @@ class PersonalRegister : AppCompatActivity() {
                         }
                     }
                 }
+
+                 */
             }
         }
 

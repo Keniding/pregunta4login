@@ -60,4 +60,7 @@ dependencies {
 
     implementation (libs.androidx.security.crypto)
 
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+
 }

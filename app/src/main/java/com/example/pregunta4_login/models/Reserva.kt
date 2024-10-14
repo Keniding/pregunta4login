@@ -10,5 +10,5 @@ data class Reserva(
     @SerializedName("hora_fin") val horaFin: String,
     @SerializedName("hora_inicio") val horaInicio: String,
     @SerializedName("id_area") val idArea: Int,
-    @SerializedName("id_propietario") val idPropietario: Int
+    @SerializedName("dni") val idPropietario: Int
 )

@@ -1,6 +1,7 @@
 package com.example.pregunta4_login.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
@@ -17,7 +18,10 @@ fun saveTokenSecurely(context: Context, token: String) {
     val editor = sharedPreferences.edit()
     editor.putString("auth_token", token)
     editor.apply()
+
+    Log.d("TokenStorage", "Token guardado: $token")
 }
+
 
 fun getTokenSecurely(context: Context): String? {
     val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -29,5 +33,10 @@ fun getTokenSecurely(context: Context): String? {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    return sharedPreferences.getString("auth_token", null)
+    val token = sharedPreferences.getString("auth_token", null)
+
+    Log.d("TokenRetrieval", "Token recuperado: $token")
+
+    return token
 }
+

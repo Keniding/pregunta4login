@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Agregar en el manifest para que se cargue las imagenes de internet -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Agregar en el manifest para que se pueda acceder al storage -->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />

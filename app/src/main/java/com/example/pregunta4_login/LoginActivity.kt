@@ -4,11 +4,8 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -16,12 +13,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isEmpty
 import androidx.core.widget.addTextChangedListener
 import com.example.pregunta4_login.models.Login
-import com.example.pregunta4_login.models.User
 import com.example.pregunta4_login.services.ApiServiceFactory
 import com.example.pregunta4_login.ui.viewmodel.LoginViewModel
 import com.example.pregunta4_login.ui.viewmodel.LoginViewModelFactory
