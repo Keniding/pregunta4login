@@ -1,8 +1,10 @@
 package com.example.pregunta4_login
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.Spinner
@@ -36,31 +38,39 @@ class DetalleReservaActivity : AppCompatActivity() {
         val horaInicio = intent.getStringExtra("hora_inicio")
         val horaFin = intent.getStringExtra("hora_fin")
 
-        // Convertir la fecha a milisegundos
+        // Configurar el CalendarView
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = fechaReserva?.let { dateFormat.parse(it) }
         val dateInMillis = date?.time ?: System.currentTimeMillis()
 
-        // Configurar el CalendarView
         val calendarView: CalendarView = findViewById(R.id.calendarView)
         calendarView.setDate(dateInMillis, true, true)
-
-        // Deshabilitar la interacción del usuario con el CalendarView
-        calendarView.setOnTouchListener { _, _ -> true }
+        calendarView.setOnTouchListener { _, _ -> false }
 
         // Actualizar los TextView con los datos recibidos
         findViewById<TextView>(R.id.tv_reservation_title).text = "Reserva de Espacio - Área: $areaId"
         findViewById<TextView>(R.id.tv_time_range).text = "Rango de horas: $horaInicio - $horaFin"
 
-        val descripcionEditText = findViewById<EditText>(R.id.et_reservation_reason)
-        val descripcionText = descripcionEditText.text.toString()
+        val btnConfirmarReserva = findViewById<Button>(R.id.btn_confirm_reservation)
 
-        val reserva = ReservaRequest(areaId, fechaReserva!!, horaInicio!!, horaFin!!, descripcionText)
+        btnConfirmarReserva.setOnClickListener {
+            val descripcionEditText = findViewById<EditText>(R.id.et_reservation_reason)
+            val descripcionText = descripcionEditText.text.toString()
 
-        try {
-            guardarReserva(reserva)
-        } catch (e: Exception) {
-            e.printStackTrace()
+            if (descripcionText.isBlank()) {
+                Toast.makeText(this, "La descripción no puede estar vacía", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val reserva = ReservaRequest(areaId, fechaReserva!!, horaInicio!!, horaFin!!, descripcionText)
+
+            try {
+                guardarReserva(reserva)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            Intent(this, ReservaActivity::class.java).apply { startActivity(this) }
         }
     }
 
@@ -102,5 +112,4 @@ class DetalleReservaActivity : AppCompatActivity() {
                 }
             })
     }
-
 }
