@@ -2,6 +2,7 @@ package com.example.pregunta4_login.services
 
 import android.content.Context
 import com.example.pregunta4_login.api.ApiSerivicePersonal
+import com.example.pregunta4_login.api.ApiServiceArea
 import com.example.pregunta4_login.api.ApiServiceAuth
 import com.example.pregunta4_login.api.ApiServiceRegister
 import com.example.pregunta4_login.api.ApiServiceReserva
@@ -37,11 +38,42 @@ object ApiServiceFactory {
     }
 
     val loginInstance: ApiServiceAuth by lazy {
-        RetrofitConfig(BASE_URL_LARAVEL).createService(ApiServiceAuth::class.java, authenticated = false)
+        RetrofitConfig(BASE_URL_LARAVEL).createService(
+            ApiServiceAuth::class.java,
+            authenticated = false
+        )
     }
 
-    fun createPersonalInstance(context: Context): ApiSerivicePersonal {
+    var meInstance: ApiServiceAuth? = null
+        private set
+
+    fun initializeMeInstance(context: Context) {
+        meInstance = createLaravelRetrofit(context).createService(ApiServiceAuth::class.java, authenticated = true)
+    }
+
+    var reservaInstance: ApiServiceReserva? = null
+
+    fun initializeReservaInstance(context: Context) {
+        reservaInstance = createLaravelRetrofit(context).createService(ApiServiceReserva::class.java, authenticated = true)
+    }
+
+    fun cargarPersonalInstance(context: Context): ApiSerivicePersonal {
         val laravelRetrofit = createLaravelRetrofit(context)
         return laravelRetrofit.createService(ApiSerivicePersonal::class.java, authenticated = true)
+    }
+
+    fun cargarHorariosInstance(context: Context): ApiServiceReserva {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceReserva::class.java, authenticated = true)
+    }
+
+    fun cargarAreasInstance(context: Context): ApiServiceArea {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceArea::class.java, authenticated = true)
+    }
+
+    fun crearReservaInstance(context: Context): ApiServiceReserva {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceReserva::class.java, authenticated = true)
     }
 }

@@ -63,4 +63,7 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
 
+    //implementation("com.google.android.youtube:youtube-android-player-api:1.2.2")
+
+
 }

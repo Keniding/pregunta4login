@@ -1,0 +1,81 @@
+<androidx.gridlayout.widget.GridLayout
+    android:id="@+id/main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    app:columnCount="2"
+    app:rowCount="5">
+
+<!-- Título de Bienvenida -->
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_columnSpan="2"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        app:layout_gravity="fill_horizontal" />
+
+    <!-- Nombre del usuario -->
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nombre del Usuario"
+        android:textSize="20sp"
+        app:layout_columnSpan="2"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_gravity="fill_horizontal" />
+
+    <!-- Foto del usuario -->
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_columnSpan="2"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_gravity="fill_horizontal" />
+
+    <!-- Título para las próximas fechas -->
+    <TextView
+        android:id="@+id/tv_next_dates_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Próximas Reservas"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_columnSpan="2"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        app:layout_gravity="fill_horizontal" />
+
+    <!-- RecyclerView para mostrar las próximas reservas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_next_dates"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_columnSpan="2"
+        android:layout_margin="16dp"
+        app:layout_gravity="fill_horizontal" />
+
+    <!-- Botón para compartir ubicación -->
+    <Button
+        android:id="@+id/btn_share_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Compartir Ubicación"
+        app:layout_columnSpan="2"
+        android:layout_marginBottom="16dp"
+        app:layout_gravity="fill_horizontal" />
+
+</androidx.gridlayout.widget.GridLayout>

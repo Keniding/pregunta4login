@@ -2,6 +2,7 @@ package com.example.pregunta4_login.ui.viewmodel
 
 import com.example.pregunta4_login.models.Login
 import com.example.pregunta4_login.models.LoginResponse
+import com.example.pregunta4_login.models.Usuario
 import com.example.pregunta4_login.services.ApiServiceFactory
 import com.example.pregunta4_login.ui.base.BaseViewModel
 

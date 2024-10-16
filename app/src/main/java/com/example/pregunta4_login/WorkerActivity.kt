@@ -63,7 +63,7 @@ class WorkerActivity : AppCompatActivity() {
     }
 
     private fun cargarPersonal() {
-        ApiServiceFactory.createPersonalInstance(this).getPersonal().enqueue(object : Callback<List<Personal>> {
+        ApiServiceFactory.cargarPersonalInstance(this).getPersonal().enqueue(object : Callback<List<Personal>> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<Personal>>, response: Response<List<Personal>>) {
                 if (response.isSuccessful) {

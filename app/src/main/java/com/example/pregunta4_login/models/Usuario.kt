@@ -7,6 +7,7 @@ data class Usuario(
     @SerializedName("dni") val dni: String,
     @SerializedName("email") val email: String,
     @SerializedName("password") val password: String, // Ocho caracteres mínimo
-    @SerializedName("id_rol") val idRol: Int
+    @SerializedName("id_rol") val idRol: Int,
+    @SerializedName("estado") val estado: Int = 1
 )
 

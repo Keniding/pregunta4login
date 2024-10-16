@@ -18,6 +18,8 @@ import com.example.pregunta4_login.models.Login
 import com.example.pregunta4_login.services.ApiServiceFactory
 import com.example.pregunta4_login.ui.viewmodel.LoginViewModel
 import com.example.pregunta4_login.ui.viewmodel.LoginViewModelFactory
+import com.example.pregunta4_login.ui.viewmodel.MeViewModel
+import com.example.pregunta4_login.ui.viewmodel.MeViewModelFactory
 import com.example.pregunta4_login.utils.saveTokenSecurely
 import com.google.android.material.textfield.TextInputEditText
 
@@ -27,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val apiServiceFactory = ApiServiceFactory
     private val loginViewModel: LoginViewModel by viewModels<LoginViewModel> { LoginViewModelFactory(apiServiceFactory) }
+    private val meViewModel: MeViewModel by viewModels<MeViewModel> { MeViewModelFactory(application, apiServiceFactory) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
                 if (token != null) {
                     saveTokenSecurely(this, token)
+                    meSave();
                     Log.d("LoginActivity", "Token: $token")
 
                     Intent(this, PrincipalActivity::class.java).also {
@@ -104,5 +108,9 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun meSave() {
+        meViewModel.fetchUserProfile { _, _ -> }
     }
 }

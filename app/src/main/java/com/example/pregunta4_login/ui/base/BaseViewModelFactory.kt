@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.pregunta4_login.services.ApiServiceFactory
 
 abstract class BaseViewModelFactory<T : ViewModel>(
-    val apiServiceFactory: ApiServiceFactory,
+    open val apiServiceFactory: ApiServiceFactory,
     private val viewModelClass: Class<T>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
