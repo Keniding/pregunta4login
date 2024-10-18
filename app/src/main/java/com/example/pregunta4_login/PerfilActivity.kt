@@ -81,7 +81,9 @@ class PerfilActivity : AppCompatActivity() {
 
         youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = "EDbvvnxVCr0"
+                //val videoId = "EDbvvnxVCr0" // id de video de YouTube
+                // NAq3ysmpPcA
+                val videoId = "NAq3ysmpPcA"
                 youTubePlayer.cueVideo(videoId, 0f)
             }
         })
