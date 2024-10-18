@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.gridlayout.widget.GridLayout
     android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -7,9 +8,22 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     app:columnCount="2"
-    app:rowCount="5">
+    app:rowCount="6">
 
-<!-- Título de Bienvenida -->
+    <!-- Otros componentes -->
+
+    <!-- WebView para reproducir el video de YouTube -->
+    <!--
+    <WebView
+        android:id="@+id/webview_youtube"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_columnSpan="2"
+        android:layout_marginTop="16dp"
+        app:layout_gravity="fill_horizontal" />
+-->
+
+    <!-- Título de Bienvenida -->
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="0dp"
@@ -38,12 +52,20 @@
     <ImageView
         android:id="@+id/user_photo"
         android:layout_width="0dp"
-        android:layout_height="100dp"
         android:scaleType="centerCrop"
         app:layout_columnSpan="2"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_gravity="fill_horizontal" />
+    <!--android:layout_height="100dp"-->
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingClass" />
+
+
 
     <!-- Título para las próximas fechas -->
     <TextView

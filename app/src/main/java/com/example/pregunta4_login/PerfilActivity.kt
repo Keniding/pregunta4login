@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,9 +17,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class PerfilActivity : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+
+
+    private val VIDEO_ID = "ArY6njyJKDY"
+    private val PLAYLIST_ID = "RDM_Dk9demut0"
+
+
+    @SuppressLint("MissingInflatedId", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,7 +42,7 @@ class PerfilActivity : AppCompatActivity() {
         }
 
         // Enlazar vistas
-        val welcomeTextView: TextView = findViewById(R.id.tv_welcome)
+        //val welcomeTextView: TextView = findViewById(R.id.tv_welcome)
         val userNameTextView: TextView = findViewById(R.id.tv_user_name)
         val userPhotoImageView: ImageView = findViewById(R.id.user_photo)
         //val presentationVideoView: VideoView = findViewById(R.id.presentation_video)
@@ -45,18 +57,48 @@ class PerfilActivity : AppCompatActivity() {
         userNameTextView.text = userName
 
         /*
-        // Configurar video de presentación
-        val videoUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.sample_video)
-        presentationVideoView.setVideoURI(videoUri)
-        presentationVideoView.setOnPreparedListener { it.start() }
+        val webView: WebView = findViewById(R.id.webview_youtube)
+        val webSettings: WebSettings = webView.settings
+        webSettings.javaScriptEnabled = true
+        webView.webViewClient = WebViewClient()
+
+        // Construir la URL del video con la lista de reproducción
+        val videoUrl = "https://www.youtube.com/watch?v=EDbvvnxVCr0&list=RDM_Dk9demut0&index=5"
+        val html = """
+            <html>
+                <body>
+                    <iframe width="100%" height="100%" src="$videoUrl" frameborder="0" allowfullscreen></iframe>
+                </body>
+            </html>
+        """.trimIndent()
+
+        webView.loadData(html, "text/html", "utf-8")
 
          */
 
-        // Configurar botón para compartir ubicación
-        shareLocationButton.setOnClickListener {
-            Toast.makeText(this, "Compartiendo ubicación...", Toast.LENGTH_SHORT).show()
-            // Aquí deberías implementar la lógica para compartir la ubicación
-        }
+        val youtubePlayerView: YouTubePlayerView = findViewById(R.id.youtube_player_view)
+        lifecycle.addObserver(youtubePlayerView)
 
-    }
+        youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = "EDbvvnxVCr0"
+                youTubePlayer.cueVideo(videoId, 0f)
+            }
+        })
+
+/*
+// Configurar video de presentación
+val videoUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.sample_video)
+presentationVideoView.setVideoURI(videoUri)
+presentationVideoView.setOnPreparedListener { it.start() }
+
+ */
+
+// Configurar botón para compartir ubicación
+shareLocationButton.setOnClickListener {
+    Toast.makeText(this, "Compartiendo ubicación...", Toast.LENGTH_SHORT).show()
+    // Aquí deberías implementar la lógica para compartir la ubicación
+}
+
+}
 }
