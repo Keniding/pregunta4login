@@ -65,7 +65,7 @@ dependencies {
 
     //implementation("com.google.android.youtube:youtube-android-player-api:1.2.2")
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
+    implementation(kotlin("script-runtime"))
 
-
-
+    implementation(libs.androidx.sqlite)
 }
