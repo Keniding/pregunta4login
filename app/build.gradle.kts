@@ -68,4 +68,6 @@ dependencies {
     implementation(kotlin("script-runtime"))
 
     implementation(libs.androidx.sqlite)
+
+    implementation(libs.squareup.picasso)
 }

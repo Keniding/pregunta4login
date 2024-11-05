@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pregunta4_login.R
 import com.example.pregunta4_login.models.Personal
+import com.squareup.picasso.Picasso
 
 class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.Adapter<PersonalAdapter.PersonalViewHolder>() {
 
@@ -29,10 +30,12 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
             registrationDateTextView.text = "Fecha de Registro: ${personal.fecha_creacion}"
             statusTextView.text = "Estado: ${if (personal.estado == 1) "Activo" else "Inactivo"}"
 
-            Glide.with(itemView.context)
-                .load(personal.foto)
-                .centerCrop()
-                .into(imageViewProfile)
+            Picasso.get().load(personal.foto).into(imageViewProfile)
+
+//            Glide.with(itemView.context)
+//                .load(personal.foto)
+//                .centerCrop()
+//                .into(imageViewProfile)
         }
     }
 
