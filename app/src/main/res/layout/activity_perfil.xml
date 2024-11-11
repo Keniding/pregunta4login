@@ -10,20 +10,6 @@
     app:columnCount="2"
     app:rowCount="6">
 
-    <!-- Otros componentes -->
-
-    <!-- WebView para reproducir el video de YouTube -->
-    <!--
-    <WebView
-        android:id="@+id/webview_youtube"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_columnSpan="2"
-        android:layout_marginTop="16dp"
-        app:layout_gravity="fill_horizontal" />
--->
-
-    <!-- Título de Bienvenida -->
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="0dp"
@@ -48,22 +34,47 @@
         android:layout_marginTop="8dp"
         app:layout_gravity="fill_horizontal" />
 
-    <!-- Foto del usuario -->
-    <ImageView
-        android:id="@+id/user_photo"
-        android:layout_width="0dp"
-        android:scaleType="centerCrop"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_columnSpan="2"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_gravity="fill_horizontal" />
-    <!--android:layout_height="100dp"-->
+        app:layout_gravity="center">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/trabajador"
+            app:strokeWidth="2dp"
+            app:strokeColor="#FF000000"
+            app:shapeAppearanceOverlay="@style/CircularImageView"
+            android:layout_gravity="center"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_change_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="-10dp"
+            android:layout_marginBottom="-10dp"
+            android:contentDescription="TODO"
+            app:fabSize="mini"
+            android:src="@drawable/ic_camera"/>
+
+    </FrameLayout>
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_columnSpan="2"
+        app:layout_gravity="fill_horizontal"
         tools:ignore="MissingClass" />
+
 
 
     <!-- Título para las próximas fechas -->

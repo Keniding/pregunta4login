@@ -30,7 +30,11 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
             registrationDateTextView.text = "Fecha de Registro: ${personal.fecha_creacion}"
             statusTextView.text = "Estado: ${if (personal.estado == 1) "Activo" else "Inactivo"}"
 
-            Picasso.get().load(personal.foto).into(imageViewProfile)
+            if (personal.foto.isNotEmpty()) {
+                Picasso.get().load(personal.foto).into(imageViewProfile)
+            } else {
+                imageViewProfile.setImageResource(R.drawable.ic_profile)
+            }
 
 //            Glide.with(itemView.context)
 //                .load(personal.foto)
