@@ -1,6 +1,5 @@
 package com.example.pregunta4_login
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.pregunta4_login.databinding.ActivityPerfilBinding
 import com.example.pregunta4_login.services.ApiServiceFactory
+import com.example.pregunta4_login.sql.ProfileImageDatabaseHelper
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.coroutines.launch
@@ -25,27 +25,24 @@ import java.io.File
 
 class PerfilActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPerfilBinding
+    private lateinit var profileImageDbHelper: ProfileImageDatabaseHelper
 
     private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             result.data?.data?.let { uri ->
-                try {
-                    binding.profileImage.setImageURI(uri)
-                    uploadImage(uri)
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show()
-                }
+                handleImageLoading(uri)
             }
         }
     }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         binding = ActivityPerfilBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        profileImageDbHelper = ProfileImageDatabaseHelper(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -57,7 +54,14 @@ class PerfilActivity : AppCompatActivity() {
         val userName = sharedPreferences.getString("nombre", "Usuario")
 
         binding.tvUserName.text = userName
-        binding.profileImage.setImageResource(R.drawable.usuario_)
+
+        // Cargar la imagen guardada si existe
+        val savedImagePath = profileImageDbHelper.getImagePath()
+        if (savedImagePath != null) {
+            binding.profileImage.setImageURI(Uri.parse(savedImagePath))
+        } else {
+            binding.profileImage.setImageResource(R.drawable.usuario_)
+        }
 
         binding.fabChangeAvatar.setOnClickListener {
             openImagePicker()
@@ -82,15 +86,35 @@ class PerfilActivity : AppCompatActivity() {
         ApiServiceFactory.initializeUpdatePhoto(this)
     }
 
-    @SuppressLint("IntentReset")
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
         getContent.launch(intent)
     }
 
+    private fun handleImageLoading(uri: Uri) {
+        try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val file = File(filesDir, "profile_image.jpg")
+
+            inputStream?.use { input ->
+                file.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+
+            profileImageDbHelper.saveImagePath(file.absolutePath)
+            binding.profileImage.setImageURI(Uri.fromFile(file))
+
+            // Intenta subir la imagen al servidor (opcional)
+            uploadImage(Uri.fromFile(file))
+        } catch (e: Exception) {
+            //Toast.makeText(this, "Error al procesar la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun uploadImage(uri: Uri) {
-        val file = File(getRealPathFromURI(uri))
+        val file = File(uri.path!!)
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
 
@@ -100,25 +124,17 @@ class PerfilActivity : AppCompatActivity() {
                 if (response?.isSuccessful == true) {
                     Toast.makeText(this@PerfilActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this@PerfilActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PerfilActivity, "Error al subir la imagen al servidor", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@PerfilActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PerfilActivity, "Error al subir la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun getRealPathFromURI(uri: Uri): String {
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor?.moveToFirst()
-        val idx = cursor?.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-        val result = cursor?.getString(idx ?: 0)
-        cursor?.close()
-        return result ?: ""
     }
 
     override fun onDestroy() {
         super.onDestroy()
         binding.youtubePlayerView.release()
+        profileImageDbHelper.close()
     }
 }
