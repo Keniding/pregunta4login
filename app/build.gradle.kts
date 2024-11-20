@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -64,10 +68,13 @@ dependencies {
     annotationProcessor (libs.compiler)
 
     //implementation("com.google.android.youtube:youtube-android-player-api:1.2.2")
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
+    implementation (libs.core.v1211)
     implementation(kotlin("script-runtime"))
 
     implementation(libs.androidx.sqlite)
 
     implementation(libs.squareup.picasso)
+
+    implementation (libs.circleimageview)
+
 }

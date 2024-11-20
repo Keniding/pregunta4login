@@ -2,6 +2,10 @@ package com.example.pregunta4_login.services
 
 import android.content.Context
 import com.example.pregunta4_login.api.*
+import com.example.pregunta4_login.api.ApiServiceArea
+import com.example.pregunta4_login.api.ApiServiceRegister
+import com.example.pregunta4_login.api.ApiServiceReserva
+import com.example.pregunta4_login.api.ApiServiceRol
 import com.example.pregunta4_login.config.RetrofitConfig
 import com.example.pregunta4_login.utils.getTokenSecurely
 
@@ -32,18 +36,24 @@ object ApiServiceFactory {
         RetrofitConfig(BASE_URL_LARAVEL).createService(ApiServiceRegister::class.java, authenticated = false)
     }
 
-    val loginInstance: ApiServiceAuth by lazy {
+    val loginInstance: ApiServiceMe by lazy {
         RetrofitConfig(BASE_URL_LARAVEL).createService(
-            ApiServiceAuth::class.java,
+            ApiServiceMe::class.java,
             authenticated = false
         )
     }
 
-    var meInstance: ApiServiceAuth? = null
+    var meInstance: ApiServiceMe? = null
         private set
 
     fun initializeMeInstance(context: Context) {
-        meInstance = createLaravelRetrofit(context).createService(ApiServiceAuth::class.java, authenticated = true)
+        meInstance = createLaravelRetrofit(context).createService(ApiServiceMe::class.java, authenticated = true)
+    }
+
+    var updatePhoto: ApiServiceMe? = null
+
+    fun initializeUpdatePhoto(context: Context) {
+        updatePhoto = createLaravelRetrofit(context).createService(ApiServiceMe::class.java, authenticated = true)
     }
 
     var reservaInstance: ApiServiceReserva? = null
