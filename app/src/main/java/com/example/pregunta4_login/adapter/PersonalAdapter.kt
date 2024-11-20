@@ -25,7 +25,7 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
         @SuppressLint("SetTextI18n")
         fun bind(personal: Personal) {
             nameTextView.text = "Nombre: ${personal.nombre}"
-            roleTextView.text = "Rol: ${personal.id_rol}"
+            roleTextView.text = "Rol: ${personal.idRol}"
             ageTextView.text = "Email: ${personal.email}"
             registrationDateTextView.text = "Fecha de Registro: ${personal.fecha_creacion}"
             statusTextView.text = "Estado: ${if (personal.estado == 1) "Activo" else "Inactivo"}"

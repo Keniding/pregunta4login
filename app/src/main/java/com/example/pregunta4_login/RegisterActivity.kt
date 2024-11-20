@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
         cargarRoles(autoCompleteTextView)
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            idRolSeleccionado = listaDeRoles[position].idRol
+            idRolSeleccionado = listaDeRoles[position].id
         }
 
         val buttonRegister = findViewById<Button>(R.id.btnRegister)

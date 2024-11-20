@@ -2,13 +2,13 @@ package com.example.pregunta4_login.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Reserva(
-    @SerializedName("id_reserva") val idReserva: Int,
-    var estado: String,
+class Reserva(
+    @SerializedName("id") var id: Int,
+    @SerializedName("id_area") var idArea: Int,
+    @SerializedName("fecha_reserva") var fechaReserva: String,
     @SerializedName("fecha_creacion") val fechaCreacion: String,
-    @SerializedName("fecha_reserva") val fechaReserva: String,
-    @SerializedName("hora_fin") val horaFin: String,
-    @SerializedName("hora_inicio") val horaInicio: String,
-    @SerializedName("id_area") val idArea: Int,
-    @SerializedName("dni") val idPropietario: Int
+    @SerializedName("hora_inicio") var horaInicio: String,
+    @SerializedName("hora_fin") var horaFin: String,
+    @SerializedName("descripcion") var descripcion: String,
+    @SerializedName("estado") var estado: Int
 )

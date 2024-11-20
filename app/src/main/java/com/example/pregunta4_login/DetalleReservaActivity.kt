@@ -80,7 +80,7 @@ class DetalleReservaActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Mensaje>, response: Response<Mensaje>) {
                     if (response.isSuccessful) {
                         response.body()?.let { message ->
-                            if (message.Mensaje == "messages.savedReserva") {
+                            if (message.mensaje == "messages.savedReserva") {
                                 Toast.makeText(
                                     this@DetalleReservaActivity,
                                     "Reserva guardada exitosamente",
@@ -89,7 +89,7 @@ class DetalleReservaActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this@DetalleReservaActivity,
-                                    "Respuesta inesperada: ${message.Mensaje}",
+                                    "Respuesta inesperada: ${message.mensaje}",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }

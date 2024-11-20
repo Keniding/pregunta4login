@@ -2,8 +2,8 @@ package com.example.pregunta4_login.models
 
 import com.google.gson.annotations.SerializedName
 
-class Area(
-    @SerializedName("id") var id: Int,
+class UpdatePasswordRequest(
+    @SerializedName("dni") var dni: String,
     @SerializedName("nombre") var nombre: String,
-    @SerializedName("descripcion") var descripcion: String
+    @SerializedName("id_rol") var idRol: Int
 )

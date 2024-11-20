@@ -69,7 +69,7 @@ class PersonalDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATAB
                 put(COLUMN_NOMBRE, personal.nombre)
                 put(COLUMN_EMAIL, personal.email)
                 put(COLUMN_FOTO, personal.foto)
-                put(COLUMN_ID_ROL, personal.id_rol)
+                put(COLUMN_ID_ROL, personal.idRol)
                 put(COLUMN_FECHA_CREACION, personal.fecha_creacion)
                 put(COLUMN_ESTADO, personal.estado)
             }
@@ -96,7 +96,7 @@ class PersonalDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATAB
                 val fechaCreacion = cursor.getString(cursor.getColumnIndex(COLUMN_FECHA_CREACION)) ?: "Fecha no disponible"
                 val estado = cursor.getInt(cursor.getColumnIndex(COLUMN_ESTADO))
 
-                val personal = Personal(dni, nombre, email, foto, idRol, fechaCreacion, estado)
+                val personal = Personal(dni.toString(), nombre, email, foto, idRol, estado, fechaCreacion)
                 personalList.add(personal)
             } while (cursor.moveToNext())
         }

@@ -1,12 +1,7 @@
 package com.example.pregunta4_login.services
 
 import android.content.Context
-import com.example.pregunta4_login.api.ApiSerivicePersonal
-import com.example.pregunta4_login.api.ApiServiceArea
-import com.example.pregunta4_login.api.ApiServiceAuth
-import com.example.pregunta4_login.api.ApiServiceRegister
-import com.example.pregunta4_login.api.ApiServiceReserva
-import com.example.pregunta4_login.api.ApiServiceRol
+import com.example.pregunta4_login.api.*
 import com.example.pregunta4_login.config.RetrofitConfig
 import com.example.pregunta4_login.utils.getTokenSecurely
 
@@ -57,9 +52,9 @@ object ApiServiceFactory {
         reservaInstance = createLaravelRetrofit(context).createService(ApiServiceReserva::class.java, authenticated = true)
     }
 
-    fun cargarPersonalInstance(context: Context): ApiSerivicePersonal {
+    fun cargarPersonalInstance(context: Context): ApiServicePersonal {
         val laravelRetrofit = createLaravelRetrofit(context)
-        return laravelRetrofit.createService(ApiSerivicePersonal::class.java, authenticated = true)
+        return laravelRetrofit.createService(ApiServicePersonal::class.java, authenticated = true)
     }
 
     fun cargarHorariosInstance(context: Context): ApiServiceReserva {
@@ -75,5 +70,30 @@ object ApiServiceFactory {
     fun crearReservaInstance(context: Context): ApiServiceReserva {
         val laravelRetrofit = createLaravelRetrofit(context)
         return laravelRetrofit.createService(ApiServiceReserva::class.java, authenticated = true)
+    }
+
+    fun cargarSocialInstance(context: Context): ApiServiceSocial {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceSocial::class.java, authenticated = false)
+    }
+
+    fun cargarUploadInstance(context: Context): ApiServiceUpload {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceUpload::class.java, authenticated = false)
+    }
+
+    fun cargarRolInstance(context: Context): ApiServiceRol {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceRol::class.java, authenticated = false)
+    }
+
+    fun cargarAuthInstance(context: Context): ApiServiceAuth {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceAuth::class.java, authenticated = true)
+    }
+
+    fun cargarPersonalAuthInstance(context: Context): ApiServicePersonal {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServicePersonal::class.java, authenticated = true)
     }
 }

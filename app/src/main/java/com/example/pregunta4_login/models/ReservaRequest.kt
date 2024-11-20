@@ -1,9 +1,11 @@
 package com.example.pregunta4_login.models
 
-data class ReservaRequest(
-    val id_area: Int,
-    val fecha_reserva: String,
-    val hora_inicio: String,
-    val hora_fin: String,
-    val descripcion: String
+import com.google.gson.annotations.SerializedName
+
+class ReservaRequest(
+    @SerializedName("id_area") var idArea: Int,
+    @SerializedName("fecha_reserva") var fechaReserva: String,
+    @SerializedName("hora_inicio") var horaInicio: String,
+    @SerializedName("hora_fin") var horaFin: String,
+    @SerializedName("descripcion") var descripcion: String
 )
