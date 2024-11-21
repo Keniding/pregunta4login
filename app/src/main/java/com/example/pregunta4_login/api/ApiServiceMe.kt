@@ -32,10 +32,8 @@ interface ApiServiceMe {
     suspend fun changeStatus(@Body statusRequest: StatusRequest): Response<Mensaje>
 
     @Multipart
-    @POST("v1/upload")
+    @POST("upload")
     suspend fun uploadImage(
-        @Part image: MultipartBody.Part,
-        @Query("lang") lang: String? = null,
-        @Query("encr") encr: String? = null
+        @Part image: MultipartBody.Part
     ): Response<ImageUploadResponse>
 }

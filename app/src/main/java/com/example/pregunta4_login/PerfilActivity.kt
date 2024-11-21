@@ -114,21 +114,79 @@ class PerfilActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(uri: Uri) {
-        val file = File(uri.path!!)
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+        try {
+            // Crear un archivo temporal desde el URI
+            val inputStream = contentResolver.openInputStream(uri)
+            val file = File(cacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
 
-        lifecycleScope.launch {
-            try {
-                val response = ApiServiceFactory.updatePhoto?.uploadImage(body)
-                if (response?.isSuccessful == true) {
-                    Toast.makeText(this@PerfilActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this@PerfilActivity, "Error al subir la imagen al servidor", Toast.LENGTH_SHORT).show()
+            inputStream?.use { input ->
+                file.outputStream().use { output ->
+                    input.copyTo(output)
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@PerfilActivity, "Error al subir la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+
+            // Crear el MultipartBody.Part
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+            lifecycleScope.launch {
+                try {
+                    val response = ApiServiceFactory.updatePhoto?.uploadImage(body)
+
+                    when {
+                        response?.isSuccessful == true -> {
+                            response.body()?.let { imageResponse ->
+                                // Guardar la URL devuelta
+                                val imageUrl = imageResponse.url
+
+                                // Guardar la imagen en la base de datos local
+                                profileImageDbHelper.saveImagePath(file.absolutePath)
+
+                                // Actualizar la imagen en la UI
+                                runOnUiThread {
+                                    binding.profileImage.setImageURI(Uri.fromFile(file))
+                                    Toast.makeText(this@PerfilActivity,
+                                        "Imagen actualizada con éxito",
+                                        Toast.LENGTH_SHORT).show()
+                                }
+
+                                // También puedes guardar la URL del servidor si lo necesitas
+                                val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                                sharedPreferences.edit().putString("profile_image_url", imageUrl).apply()
+                            }
+                        }
+                        response?.code() == 404 -> {
+                            runOnUiThread {
+                                Toast.makeText(this@PerfilActivity,
+                                    "URL no encontrada. Verifica la ruta del endpoint",
+                                    Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        else -> {
+                            runOnUiThread {
+                                Toast.makeText(this@PerfilActivity,
+                                    "Error: ${response?.code()} - ${response?.errorBody()?.string()}",
+                                    Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        Toast.makeText(this@PerfilActivity,
+                            "Error de conexión: ${e.message}",
+                            Toast.LENGTH_LONG).show()
+                    }
+                } finally {
+                    // Limpiar el archivo temporal si es necesario
+                    if (file.exists() && file.absolutePath != profileImageDbHelper.getImagePath()) {
+                        file.delete()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this@PerfilActivity,
+                "Error al procesar el archivo: ${e.message}",
+                Toast.LENGTH_SHORT).show()
         }
     }
 

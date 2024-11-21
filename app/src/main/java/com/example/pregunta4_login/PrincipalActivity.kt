@@ -29,6 +29,7 @@ class PrincipalActivity : AppCompatActivity() {
 
         val personal: CardView = findViewById(R.id.cardPersonal)
         val reservas: CardView = findViewById(R.id.cardReservas)
+        val recibos: CardView = findViewById(R.id.cardRecibos)
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val logout: Button = findViewById(R.id.btn_logout)
@@ -42,6 +43,13 @@ class PrincipalActivity : AppCompatActivity() {
 
         reservas.setOnClickListener {
             val intent = Intent(this, ReservaActivity::class.java).apply {
+                putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
+            }
+            startActivity(intent)
+        }
+
+        recibos.setOnClickListener {
+            val intent = Intent(this, ReciboActivity::class.java).apply {
                 putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
             }
             startActivity(intent)
