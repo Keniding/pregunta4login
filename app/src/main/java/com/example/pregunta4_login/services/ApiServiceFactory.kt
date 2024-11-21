@@ -97,9 +97,9 @@ object ApiServiceFactory {
         return laravelRetrofit.createService(ApiServiceRol::class.java, authenticated = false)
     }
 
-    fun cargarAuthInstance(context: Context): ApiServiceAuth {
+    fun cargarAuthInstance(context: Context): ApiServiceMe {
         val laravelRetrofit = createLaravelRetrofit(context)
-        return laravelRetrofit.createService(ApiServiceAuth::class.java, authenticated = true)
+        return laravelRetrofit.createService(ApiServiceMe::class.java, authenticated = true)
     }
 
     fun cargarPersonalAuthInstance(context: Context): ApiServicePersonal {

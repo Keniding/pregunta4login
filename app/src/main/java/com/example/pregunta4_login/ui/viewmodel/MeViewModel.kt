@@ -52,7 +52,6 @@ class MeViewModel(application: Application) : BaseViewModel<Usuario>(ApiServiceF
             putString("nombre", usuario.nombre)
             putString("email", usuario.email)
             putString("password", usuario.password)
-            putInt("estado", usuario.estado)
             Log.d("MeViewModel", "Usuario guardado en preferencias: ${usuario.nombre}")
             apply()
         }

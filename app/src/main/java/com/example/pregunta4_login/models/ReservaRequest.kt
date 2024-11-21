@@ -7,5 +7,5 @@ class ReservaRequest(
     @SerializedName("fecha_reserva") var fechaReserva: String,
     @SerializedName("hora_inicio") var horaInicio: String,
     @SerializedName("hora_fin") var horaFin: String,
-    @SerializedName("descripcion") var descripcion: String
+    @SerializedName("description") var descripcion: String
 )

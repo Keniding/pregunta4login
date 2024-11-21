@@ -19,6 +19,7 @@ import com.example.pregunta4_login.adapter.HorariosAdapter
 import com.example.pregunta4_login.models.Area
 import com.example.pregunta4_login.models.HorarioReservaRequest
 import com.example.pregunta4_login.services.ApiServiceFactory
+import com.example.pregunta4_login.utils.CustomResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,31 +82,42 @@ class CrearReservaActivity : AppCompatActivity() {
 
     private fun cargarAreas() {
         ApiServiceFactory.cargarAreasInstance(this)
-            .getAreas().enqueue(object : Callback<List<Area>> {
-                override fun onResponse(call: Call<List<Area>>, response: Response<List<Area>>) {
+            .getAreas()
+            .enqueue(object : Callback<List<Area>> {
+                override fun onResponse(
+                    call: Call<List<Area>>,
+                    response: Response<List<Area>>
+                ) {
                     if (response.isSuccessful) {
-                        response.body()?.let { areas ->
-                            Log.d("Areas", areas.toString())
-
-                            val areaArrayAdapter =
-                                AreaArrayAdapter(this@CrearReservaActivity, areas)
-
-                            val spinnerAreas = findViewById<Spinner>(R.id.spinner_areas)
-                            spinnerAreas.adapter = areaArrayAdapter
+                        val areas = response.body()
+                        if (!areas.isNullOrEmpty()) {
+                            Log.d("Areas", "Areas cargadas: ${areas.size}")
+                            val areaArrayAdapter = AreaArrayAdapter(this@CrearReservaActivity, areas)
+                            findViewById<Spinner>(R.id.spinner_areas).adapter = areaArrayAdapter
+                        } else {
+                            Log.e("Areas", "La lista de áreas está vacía")
+                            Toast.makeText(
+                                this@CrearReservaActivity,
+                                "No se encontraron áreas",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("Areas", "Error: ${response.code()} - $errorBody")
                         Toast.makeText(
                             this@CrearReservaActivity,
-                            "Error al obtener datos: ${response.message()}",
+                            "Error al cargar las áreas: ${response.message()}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<List<Area>>, t: Throwable) {
+                    Log.e("Areas", "Error en la petición: ${t.message}", t)
                     Toast.makeText(
                         this@CrearReservaActivity,
-                        "Fallo en la conexión: ${t.message}",
+                        "Error de conexión: ${t.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -114,8 +126,10 @@ class CrearReservaActivity : AppCompatActivity() {
 
     private fun cargarHorarios(selectedDate: String, area: Int) {
         ApiServiceFactory.cargarHorariosInstance(this)
-            .getReservasDisponibles(HorarioReservaRequest(area, selectedDate)).enqueue(object :
-                Callback<List<String>> {
+            .getReservasDisponibles(
+                fechaReserva = selectedDate,
+                idArea = area
+            ).enqueue(object : Callback<List<String>> {
                 override fun onResponse(
                     call: Call<List<String>>,
                     response: Response<List<String>>
@@ -132,7 +146,6 @@ class CrearReservaActivity : AppCompatActivity() {
                                 intent.putExtra("hora_inicio", horaIni)
                                 intent.putExtra("hora_fin", horaFin)
                                 startActivity(intent.setClass(this@CrearReservaActivity, DetalleReservaActivity::class.java))
-
 
                                 Toast.makeText(
                                     this@CrearReservaActivity,

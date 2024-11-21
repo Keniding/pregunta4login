@@ -48,7 +48,8 @@ class DetalleReservaActivity : AppCompatActivity() {
         calendarView.setOnTouchListener { _, _ -> false }
 
         // Actualizar los TextView con los datos recibidos
-        findViewById<TextView>(R.id.tv_reservation_title).text = "Reserva de Espacio - Área: $areaId"
+        findViewById<TextView>(R.id.tv_reservation_title).text =
+            "Reserva de Espacio - Área: $areaId"
         findViewById<TextView>(R.id.tv_time_range).text = "Rango de horas: $horaInicio - $horaFin"
 
         val btnConfirmarReserva = findViewById<Button>(R.id.btn_confirm_reservation)
@@ -58,11 +59,13 @@ class DetalleReservaActivity : AppCompatActivity() {
             val descripcionText = descripcionEditText.text.toString()
 
             if (descripcionText.isBlank()) {
-                Toast.makeText(this, "La descripción no puede estar vacía", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "La descripción no puede estar vacía", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
-            val reserva = ReservaRequest(areaId, fechaReserva!!, horaInicio!!, horaFin!!, descripcionText)
+            val reserva =
+                ReservaRequest(areaId, fechaReserva!!, horaInicio!!, horaFin!!, descripcionText)
 
             try {
                 guardarReserva(reserva)
@@ -78,26 +81,16 @@ class DetalleReservaActivity : AppCompatActivity() {
         ApiServiceFactory.crearReservaInstance(this)
             .crearReserva(reserva).enqueue(object : Callback<Mensaje> {
                 override fun onResponse(call: Call<Mensaje>, response: Response<Mensaje>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let { message ->
-                            if (message.mensaje == "messages.savedReserva") {
-                                Toast.makeText(
-                                    this@DetalleReservaActivity,
-                                    "Reserva guardada exitosamente",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Toast.makeText(
-                                    this@DetalleReservaActivity,
-                                    "Respuesta inesperada: ${message.mensaje}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
+                    if (response.code() == 200) {
+                        Toast.makeText(
+                            this@DetalleReservaActivity,
+                            "Reserva guardada exitosamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         Toast.makeText(
                             this@DetalleReservaActivity,
-                            "Error al guardar la reserva: ${response.message()}",
+                            "Error: Código de respuesta ${response.code()}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
