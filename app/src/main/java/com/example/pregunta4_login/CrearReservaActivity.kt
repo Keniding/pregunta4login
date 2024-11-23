@@ -146,6 +146,7 @@ class CrearReservaActivity : AppCompatActivity() {
                                 intent.putExtra("hora_inicio", horaIni)
                                 intent.putExtra("hora_fin", horaFin)
                                 startActivity(intent.setClass(this@CrearReservaActivity, DetalleReservaActivity::class.java))
+                                finish()
 
                                 Toast.makeText(
                                     this@CrearReservaActivity,

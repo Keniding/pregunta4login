@@ -50,7 +50,6 @@ class ReservaActivity : ComponentActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun cargarReservas() {
-        /*
         ApiServiceFactory.flaskInstance.getReservas().enqueue(object : Callback<List<Reserva>> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<Reserva>>, response: Response<List<Reserva>>) {
@@ -69,7 +68,6 @@ class ReservaActivity : ComponentActivity() {
                 Toast.makeText(this@ReservaActivity, "Fallo en la conexión: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
-         */
 
         reservaViewModel.fetchReservas { message, reservas ->
             if (reservas != null) {

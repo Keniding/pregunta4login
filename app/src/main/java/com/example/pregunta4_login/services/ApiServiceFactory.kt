@@ -111,4 +111,9 @@ object ApiServiceFactory {
         val laravelRetrofit = createLaravelRetrofit(context)
         return laravelRetrofit.createService(ApiServiceRecibo::class.java, authenticated = true)
     }
+
+    fun cargarReporteInstance(context: Context): ApiServiceReporte {
+        val laravelRetrofit = createLaravelRetrofit(context)
+        return laravelRetrofit.createService(ApiServiceReporte::class.java, authenticated = true)
+    }
 }
