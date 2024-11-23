@@ -39,6 +39,7 @@ class PrincipalActivity : AppCompatActivity() {
                 putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
             }
             startActivity(intent)
+            finish()
         }
 
         reservas.setOnClickListener {
@@ -46,6 +47,7 @@ class PrincipalActivity : AppCompatActivity() {
                 putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
             }
             startActivity(intent)
+            finish()
         }
 
         recibos.setOnClickListener {
@@ -53,6 +55,7 @@ class PrincipalActivity : AppCompatActivity() {
                 putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
             }
             startActivity(intent)
+            finish()
         }
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -62,6 +65,7 @@ class PrincipalActivity : AppCompatActivity() {
                         putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
                     }
                     startActivity(intent)
+                    finish()
                     true
                 }
                 R.id.nav_profile -> {
@@ -82,6 +86,7 @@ class PrincipalActivity : AppCompatActivity() {
 
         logout.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 }

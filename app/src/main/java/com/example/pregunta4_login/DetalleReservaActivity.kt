@@ -20,6 +20,8 @@ import com.example.pregunta4_login.models.Mensaje
 import com.example.pregunta4_login.models.Reserva
 import com.example.pregunta4_login.models.ReservaRequest
 import com.example.pregunta4_login.services.ApiServiceFactory
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,10 +49,9 @@ class DetalleReservaActivity : AppCompatActivity() {
         calendarView.setDate(dateInMillis, true, true)
         calendarView.setOnTouchListener { _, _ -> false }
 
-        // Actualizar los TextView con los datos recibidos
-        findViewById<TextView>(R.id.tv_reservation_title).text =
-            "Reserva de Espacio - Área: $areaId"
-        findViewById<TextView>(R.id.tv_time_range).text = "Rango de horas: $horaInicio - $horaFin"
+        findViewById<TextInputEditText>(R.id.time_range_input).setText("Rango de horas: $horaInicio - $horaFin")
+
+        findViewById<MaterialToolbar>(R.id.topAppBar).title = "Reserva de Espacio - Área: $areaId"
 
         val btnConfirmarReserva = findViewById<Button>(R.id.btn_confirm_reservation)
 

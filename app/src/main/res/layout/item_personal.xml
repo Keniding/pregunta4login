@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/menuCard"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/blanco">
+
+        <!-- Contenedor de la imagen con forma circular -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageViewProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircularImageView"/>
+
+        <!-- Info Container -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre: [Valor]"
+                style="@style/sectionTitle"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Role -->
+            <TextView
+                android:id="@+id/roleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rol: [Valor]"
+                style="@style/menuCardText"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- Age -->
+            <TextView
+                android:id="@+id/ageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha de nacimiento: [Valor]"
+                style="@style/etiqueta"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- Registration Date -->
+            <TextView
+                android:id="@+id/registrationDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha de Registro: [Valor]"
+                style="@style/etiqueta"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- Status with Chip -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/statusChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado: [Valor]"
+                android:textColor="@color/blanco"
+                app:chipBackgroundColor="@color/colorPrimary"
+                app:chipMinHeight="32dp"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

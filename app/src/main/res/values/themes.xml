@@ -6,4 +6,144 @@
     </style>
 
     <style name="Theme.Pregunta4login" parent="Base.Theme.Pregunta4login" />
+
+    <style name="textInputLayout" parent="Base.Theme.Pregunta4login">
+        <item name="hintEnabled">false</item>
+        <item name="errorEnabled">true</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxBackgroundColor">@color/blanco</item>
+        <item name="errorTextAppearance">@style/etiqueta</item>
+        <item name="errorTextColor">@color/rojo1</item>
+    </style>
+
+    <style name="etiqueta" parent="Base.Theme.Pregunta4login" >
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="textInputEditText" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textColorHint">@color/gray9</item>
+    </style>
+
+    <style name="botonPrimary" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="rippleColor">@color/softPrimary</item>
+        <item name="iconTint">@color/blanco</item>
+    </style>
+
+    <style name="botonFondo" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="backgroundTint">@color/blanco</item>
+        <item name="rippleColor">@color/softPrimary</item>
+        <item name="iconTint">@color/colorPrimary</item>
+    </style>
+
+    <!-- Estilo para el texto de bienvenida -->
+    <style name="welcomeText" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <!-- Estilo para las tarjetas del menú -->
+    <style name="menuCard" parent="Base.Theme.Pregunta4login">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@color/blanco</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <!-- Estilo para el texto de las tarjetas -->
+    <style name="menuCardText" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <!-- Estilos para la navegación inferior -->
+    <style name="bottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/blanco</item>
+        <item name="itemIconTint">@color/colorPrimary</item>
+        <item name="itemTextColor">@color/colorPrimary</item>
+        <item name="itemTextAppearanceActive">@style/bottomNavigationTextActive</item>
+        <item name="itemTextAppearanceInactive">@style/bottomNavigationTextInactive</item>
+    </style>
+
+    <style name="bottomNavigationTextActive" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="bottomNavigationTextInactive" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- Estilo para el título principal -->
+    <style name="titleText" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Estilo para subtítulos -->
+    <style name="subtitleText" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray9</item>
+    </style>
+
+    <!-- Estilo para títulos de sección -->
+    <style name="sectionTitle" parent="Base.Theme.Pregunta4login">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Estilo para FAB -->
+    <style name="fabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="tint">@color/blanco</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">6dp</item>
+        <item name="fabSize">mini</item>
+        <item name="rippleColor">@color/softPrimary</item>
+    </style>
+
+    <!-- Estilo para el calendario -->
+    <style name="CalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/blanco</item>
+        <item name="android:textColorPrimary">@color/gray9</item>
+    </style>
+
+    <style name="CalendarDateText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
 </resources>

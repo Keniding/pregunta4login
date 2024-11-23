@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.pregunta4_login.R
 import com.example.pregunta4_login.models.Personal
 import com.squareup.picasso.Picasso
@@ -20,7 +19,7 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
         val roleTextView: TextView = itemView.findViewById(R.id.roleTextView)
         val ageTextView: TextView = itemView.findViewById(R.id.ageTextView)
         val registrationDateTextView: TextView = itemView.findViewById(R.id.registrationDateTextView)
-        val statusTextView: TextView = itemView.findViewById(R.id.statusTextView)
+        val statusTextView: TextView = itemView.findViewById(R.id.statusChip)
 
         @SuppressLint("SetTextI18n")
         fun bind(personal: Personal) {
@@ -44,7 +43,7 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.personal_card_view, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_personal, parent, false)
         return PersonalViewHolder(view)
     }
 

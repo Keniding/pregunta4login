@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.example.pregunta4_login.models.Login
 import com.example.pregunta4_login.services.ApiServiceFactory
 import com.example.pregunta4_login.ui.viewmodel.LoginViewModel
@@ -23,14 +26,19 @@ import com.example.pregunta4_login.ui.viewmodel.MeViewModel
 import com.example.pregunta4_login.ui.viewmodel.MeViewModelFactory
 import com.example.pregunta4_login.utils.saveTokenSecurely
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
+
+private const val TAG = "LoginActivity"
 
 class LoginActivity : AppCompatActivity() {
 
     private val apiServiceFactory = ApiServiceFactory
-    private val loginViewModel: LoginViewModel by viewModels<LoginViewModel> { LoginViewModelFactory(apiServiceFactory) }
-    private val meViewModel: MeViewModel by viewModels<MeViewModel> { MeViewModelFactory(application, apiServiceFactory) }
+    private val loginViewModel: LoginViewModel by viewModels { LoginViewModelFactory(apiServiceFactory) }
+    private val meViewModel: MeViewModel by viewModels { MeViewModelFactory(application, apiServiceFactory) }
 
     // UI Components
     private lateinit var mail: TextInputEditText
@@ -43,74 +51,97 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var forgotPassword: TextView
     private lateinit var register: TextView
 
+    private var isActivityActive = true
+
     @SuppressLint("SetTextI18s")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d(TAG, "onCreate called")
+        isActivityActive = true
         checkLoginStatus()
     }
 
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy called")
+        isActivityActive = false
+        super.onDestroy()
+    }
+
     private fun checkLoginStatus() {
+        Log.d(TAG, "Checking login status")
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val token = sharedPreferences.getString("token", null)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         if (isLoggedIn && token != null) {
+            Log.d(TAG, "Token found, verifying...")
             verifyTokenAndRedirect(token)
         } else {
+            Log.d(TAG, "No token found, showing login UI")
             setupLoginUI()
         }
     }
 
     private fun verifyTokenAndRedirect(token: String) {
-        meViewModel.fetchUserProfile { message, usuario ->
+        lifecycleScope.launch {
             try {
-                val jsonMessage = JSONObject(message)
-                val errorMessage = jsonMessage.getString("message")
+                Log.d(TAG, "Verifying token...")
+                meViewModel.fetchUserProfile { message, usuario ->
+                    if (!isActivityActive) {
+                        Log.w(TAG, "Activity no longer active during token verification")
+                        return@fetchUserProfile
+                    }
 
-                if (usuario != null) {
-                    navigateToPrincipal()
-                } else {
-                    if (errorMessage.contains("401") ||
-                        errorMessage.contains("autoriza") ||
-                        errorMessage.contains("token")
-                    ) {
-                        clearLoginState()
-                        setupLoginUI()
-                        showTokenExpiredMessage()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            errorMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        clearLoginState()
-                        setupLoginUI()
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        if (usuario != null) {
+                            Log.d(TAG, "Token verification successful")
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                navigateToPrincipal()
+                            }, 100)
+                        } else {
+                            Log.w(TAG, "Token verification failed: $message")
+                            clearLoginState()
+                            setupLoginUI()
+                            showTokenExpiredMessage()
+                        }
                     }
                 }
-            } catch (e: JSONException) {
-                Toast.makeText(
-                    this,
-                    message,
-                    Toast.LENGTH_LONG
-                ).show()
-                clearLoginState()
-                setupLoginUI()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during token verification", e)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    clearLoginState()
+                    setupLoginUI()
+                    showToast("Error de verificación: ${e.message}")
+                }
             }
         }
     }
 
     private fun setupLoginUI() {
-        enableEdgeToEdge()
-        setContentView(R.layout.login_activity)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        if (!isActivityActive) {
+            Log.w(TAG, "Attempted to setup UI when activity is not active")
+            return
+        }
 
-        initializeViews()
-        setupTextWatchers()
-        setupClickListeners()
+        runOnUiThread {
+            try {
+                Log.d(TAG, "Setting up login UI")
+                enableEdgeToEdge()
+                setContentView(R.layout.login_activity)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+                initializeViews()
+                setupTextWatchers()
+                setupClickListeners()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error setting up UI", e)
+                showToast("Error al inicializar la interfaz")
+            }
+        }
     }
 
     private fun initializeViews() {
+        Log.d(TAG, "Initializing views")
         mail = findViewById(R.id.editTextEmail)
         password = findViewById(R.id.editTextPassword)
         errorMail = findViewById(R.id.textViewEmailError)
@@ -123,13 +154,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupTextWatchers() {
-        mail.addTextChangedListener {
-            validateEmail()
-        }
-
-        password.addTextChangedListener {
-            validatePassword()
-        }
+        mail.addTextChangedListener { validateEmail() }
+        password.addTextChangedListener { validatePassword() }
     }
 
     private fun validateEmail() {
@@ -185,61 +211,121 @@ class LoginActivity : AppCompatActivity() {
         val pass = password.text.toString()
 
         if (email.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+            showToast("Por favor, complete todos los campos")
             return
         }
 
-        loginViewModel.login(Login(email, pass)) { message, token ->
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        buttonSignIn.isEnabled = false
+        Log.d(TAG, "Attempting login for email: $email")
 
-            if (token != null) {
-                saveLoginState(token)
-                meSave()
-                navigateToPrincipal()
+        lifecycleScope.launch {
+            try {
+                loginViewModel.login(Login(email, pass)) { message, token ->
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        buttonSignIn.isEnabled = true
+
+                        if (token != null) {
+                            Log.d(TAG, "Login successful")
+                            saveLoginState(token)
+                            showToast("Inicio de sesión exitoso")
+                            meSave()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                if (isActivityActive) {
+                                    navigateToPrincipal()
+                                }
+                            }, 500)
+                        } else {
+                            Log.w(TAG, "Login failed: $message")
+                            showToast(message ?: "Error en el inicio de sesión")
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during login", e)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    buttonSignIn.isEnabled = true
+                    showToast("Error de conexión: ${e.message}")
+                }
             }
         }
     }
 
     private fun saveLoginState(token: String) {
-        saveTokenSecurely(this, token)
-        getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().apply {
-            putBoolean("isLoggedIn", true)
-            putString("token", token)
-            apply()
+        try {
+            Log.d(TAG, "Saving login state")
+            saveTokenSecurely(this, token)
+            getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().apply {
+                putBoolean("isLoggedIn", true)
+                putString("token", token)
+                apply()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error saving login state", e)
+            showToast("Error al guardar la sesión")
         }
-        Log.d("LoginActivity", "Token: $token")
     }
 
     private fun clearLoginState() {
+        Log.d(TAG, "Clearing login state")
         getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().clear().apply()
     }
 
     private fun navigateToPrincipal() {
-        Intent(this, PrincipalActivity::class.java).also {
-            it.putExtra("status", 1)
-            startActivity(it)
+        if (!isActivityActive) {
+            Log.w(TAG, "Attempted to navigate when activity is not active")
+            return
         }
-        finish()
+
+        try {
+            Log.d(TAG, "Navigating to PrincipalActivity")
+            val intent = Intent(this, PrincipalActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra("status", 1)
+            }
+            startActivity(intent)
+            finish()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error navigating to PrincipalActivity", e)
+            showToast("Error al navegar a la pantalla principal")
+        }
     }
 
     private fun navigateToRegister() {
-        Toast.makeText(this, "Inicio de registro", Toast.LENGTH_SHORT).show()
+        if (!isActivityActive) return
+        Log.d(TAG, "Navigating to RegisterActivity")
         startActivity(Intent(this, RegisterActivity::class.java))
     }
 
     private fun showDevelopmentMessage() {
-        Toast.makeText(this, "En desarrollo", Toast.LENGTH_SHORT).show()
+        showToast("En desarrollo")
     }
 
     private fun showTokenExpiredMessage() {
-        Toast.makeText(
-            this,
-            "Su sesión ha expirado. Por favor, inicie sesión nuevamente",
-            Toast.LENGTH_LONG
-        ).show()
+        showToast("Su sesión ha expirado. Por favor, inicie sesión nuevamente")
+    }
+
+    private fun showToast(message: String) {
+        if (isActivityActive) {
+            runOnUiThread {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun meSave() {
-        meViewModel.fetchUserProfile { _, _ -> }
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                Log.d(TAG, "Fetching user profile")
+                meViewModel.fetchUserProfile { message, usuario ->
+                    if (usuario != null) {
+                        Log.d(TAG, "User profile fetched successfully")
+                    } else {
+                        Log.w(TAG, "Failed to fetch user profile: $message")
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching user profile", e)
+            }
+        }
     }
 }

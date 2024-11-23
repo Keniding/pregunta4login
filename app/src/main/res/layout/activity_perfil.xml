@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/blanco"
     app:columnCount="2"
     app:rowCount="6">
 
@@ -15,20 +16,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Bienvenido"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        style="@style/titleText"
         app:layout_columnSpan="2"
         android:gravity="center"
         android:layout_marginTop="32dp"
         app:layout_gravity="fill_horizontal" />
 
-    <!-- Nombre del usuario -->
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nombre del Usuario"
-        android:textSize="20sp"
+        style="@style/subtitleText"
         app:layout_columnSpan="2"
         android:gravity="center"
         android:layout_marginTop="8dp"
@@ -50,7 +49,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/trabajador"
             app:strokeWidth="2dp"
-            app:strokeColor="#FF000000"
+            app:strokeColor="@color/colorPrimary"
             app:shapeAppearanceOverlay="@style/CircularImageView"
             android:layout_gravity="center"/>
 
@@ -61,8 +60,8 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="-10dp"
             android:layout_marginBottom="-10dp"
-            android:contentDescription="TODO"
-            app:fabSize="mini"
+            android:contentDescription="Cambiar avatar"
+            style="@style/fabStyle"
             android:src="@drawable/ic_camera"/>
 
     </FrameLayout>
@@ -75,22 +74,17 @@
         app:layout_gravity="fill_horizontal"
         tools:ignore="MissingClass" />
 
-
-
-    <!-- Título para las próximas fechas -->
     <TextView
         android:id="@+id/tv_next_dates_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Próximas Reservas"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/sectionTitle"
         app:layout_columnSpan="2"
         android:gravity="center"
         android:layout_marginTop="16dp"
         app:layout_gravity="fill_horizontal" />
 
-    <!-- RecyclerView para mostrar las próximas reservas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_next_dates"
         android:layout_width="0dp"
@@ -100,12 +94,12 @@
         android:layout_margin="16dp"
         app:layout_gravity="fill_horizontal" />
 
-    <!-- Botón para compartir ubicación -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_share_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Compartir Ubicación"
+        style="@style/botonPrimary"
         app:layout_columnSpan="2"
         android:layout_marginBottom="16dp"
         app:layout_gravity="fill_horizontal" />

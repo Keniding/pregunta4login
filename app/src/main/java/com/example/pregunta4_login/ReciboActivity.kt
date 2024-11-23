@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pregunta4_login.adapter.RecibosAdapter
 import com.example.pregunta4_login.databinding.ActivityReciboBinding
 import com.example.pregunta4_login.ui.viewmodel.RecibosViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
 class ReciboActivity : AppCompatActivity() {
@@ -24,6 +26,30 @@ class ReciboActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReciboBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val bottomNavigation: BottomNavigationView =findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    // Acción cuando se selecciona "Home"
+                    val intent = Intent(this, PrincipalActivity::class.java).apply {
+                        putExtra("USER_EXTRA", intent.getStringExtra("USER_EXTRA"))
+                    }
+                    startActivity(intent)
+                    true
+                }
+                // Otras acciones para otros ítems
+                R.id.nav_profile -> {
+                    Toast.makeText(this,"En desarrollo", Toast.LENGTH_SHORT).show();
+                    true
+                }
+                R.id.nav_notifications->{
+                    Toast.makeText(this,"En desarrollo", Toast.LENGTH_SHORT).show();
+                    true
+                }
+                else->false
+            }
+        }
 
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 

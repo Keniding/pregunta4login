@@ -26,4 +26,34 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="CustomMaterialDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/CustomMaterialDialog.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/CustomMaterialDialog.Body</item>
+        <item name="buttonBarPositiveButtonStyle">@style/CustomMaterialDialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomMaterialDialog.Button</item>
+    </style>
+
+    <style name="CustomMaterialDialog.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="CustomMaterialDialog.Body" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="CustomMaterialDialog.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+    </style>
 </resources>
