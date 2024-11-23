@@ -24,7 +24,7 @@ class ReservaAdapter(private val listaReservas: List<Reserva>) : RecyclerView.Ad
     override fun getItemCount() = listaReservas.size
 
     class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textViewEstado: TextView = itemView.findViewById(R.id.textViewEstado)
+        private val textViewEstado: TextView = itemView.findViewById(R.id.chipEstado)
         private val textViewFechaReserva: TextView = itemView.findViewById(R.id.textViewFechaReserva)
         private val textViewHoraInicio: TextView = itemView.findViewById(R.id.textViewHoraInicio)
         private val textViewHoraFin: TextView = itemView.findViewById(R.id.textViewHoraFin)

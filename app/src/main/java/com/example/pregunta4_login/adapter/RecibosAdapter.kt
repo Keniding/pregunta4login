@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pregunta4_login.R
 import com.example.pregunta4_login.models.ReciboDetallado
+import com.example.pregunta4_login.utils.ReciboDiffCallback
 import com.google.android.material.button.MaterialButton
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RecibosAdapter : ListAdapter<ReciboDetallado, RecibosAdapter.ReciboViewHolder>(ReciboDiffCallback()) {
+class RecibosAdapter : ListAdapter<ReciboDetallado, RecibosAdapter.ReciboViewHolder>(
+    ReciboDiffCallback()
+) {
 
     private var onPdfClickListener: ((String) -> Unit)? = null
 
@@ -62,12 +64,4 @@ class RecibosAdapter : ListAdapter<ReciboDetallado, RecibosAdapter.ReciboViewHol
     }
 }
 
-class ReciboDiffCallback : DiffUtil.ItemCallback<ReciboDetallado>() {
-    override fun areItemsTheSame(oldItem: ReciboDetallado, newItem: ReciboDetallado): Boolean {
-        return oldItem.idRecibo == newItem.idRecibo
-    }
 
-    override fun areContentsTheSame(oldItem: ReciboDetallado, newItem: ReciboDetallado): Boolean {
-        return oldItem == newItem
-    }
-}

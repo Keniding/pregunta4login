@@ -23,7 +23,7 @@ interface ApiServiceMe {
     suspend fun me(): Response<Usuario>
 
     @PUT("auth/update")
-    suspend fun updatePassword(@Body updateRequest: UpdatePasswordRequest): Response<Mensaje>
+    suspend fun updateUser(@Body updateRequest: UpdateModelMe): Response<Mensaje>
 
     @POST("auth/recover")
     suspend fun recoverPassword(@Body recoverRequest: RecoverPasswordRequest): Response<Mensaje>
