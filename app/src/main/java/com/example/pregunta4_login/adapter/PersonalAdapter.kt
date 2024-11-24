@@ -24,7 +24,15 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
         @SuppressLint("SetTextI18n")
         fun bind(personal: Personal) {
             nameTextView.text = "Nombre: ${personal.nombre}"
-            roleTextView.text = "Rol: ${personal.idRol}"
+            roleTextView.text = "Rol: ${
+                when(personal.idRol) {
+                    1 -> "Administrador"
+                    2 -> "Propietario"
+                    3 -> "Personal de limpieza"
+                    4 -> "Seguridad"
+                    else -> "Rol no definido"
+                }
+            }"
             ageTextView.text = "Email: ${personal.email}"
             registrationDateTextView.text = "Fecha de Registro: ${personal.fecha_creacion}"
             statusTextView.text = "Estado: ${if (personal.estado == 1) "Activo" else "Inactivo"}"
@@ -34,15 +42,10 @@ class PersonalAdapter(private val listaPersonal: List<Personal>) : RecyclerView.
             } else {
                 imageViewProfile.setImageResource(R.drawable.ic_profile)
             }
-
-//            Glide.with(itemView.context)
-//                .load(personal.foto)
-//                .centerCrop()
-//                .into(imageViewProfile)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonalViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_personal, parent, false)
         return PersonalViewHolder(view)
     }
