@@ -49,12 +49,17 @@ class RecibosAdapter : ListAdapter<ReciboDetallado, RecibosAdapter.ReciboViewHol
         fun bind(recibo: ReciboDetallado, onPdfClickListener: ((String) -> Unit)?) {
             tvIdRecibo.text = "Recibo #${recibo.idRecibo}"
 
-            // Formatear la fecha
-            val fecha = LocalDateTime.parse(recibo.createdAt.substring(0, 19))
-            val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-            tvFecha.text = fecha.format(formatoFecha)
+            val formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatoSalida = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
-            tvServicio.text = "Servicio: ${recibo.servicio?.nombre ?: "No especificado"}"
+            try {
+                val fecha = LocalDateTime.parse(recibo.createdAt, formatoEntrada)
+                tvFecha.text = fecha.format(formatoSalida)
+            } catch (e: Exception) {
+                tvFecha.text = recibo.createdAt
+            }
+
+            tvServicio.text = "Servicio: ${recibo.servicioNombre}"
             tvDni.text = "DNI: ${recibo.dni}"
 
             btnVerPdf.setOnClickListener {
