@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         if (isLoggedIn && token != null) {
-            Log.d(TAG, "Token found, verifying...")
+            Log.d(TAG, "Token found, verifying...$token")
             verifyTokenAndRedirect(token)
         } else {
             Log.d(TAG, "No token found, showing login UI")

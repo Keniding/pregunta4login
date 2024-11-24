@@ -11,5 +11,5 @@ interface ApiServiceReporte {
     @GET("reporte")
     fun getReporte(
         @Query("lang") language: String? = null
-    ): Call<CustomResponse<List<Incidencia>>>
+    ): Call<List<Incidencia>>
 }

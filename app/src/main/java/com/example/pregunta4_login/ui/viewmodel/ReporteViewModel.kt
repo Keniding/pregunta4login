@@ -41,7 +41,7 @@ class ReporteViewModel(application: Application) : AndroidViewModel(application)
                 val incidenciaService = ApiServiceFactory.cargarReporteInstance(getApplication())
                 val response = incidenciaService.getReporte().await()
 
-                _reportes.value = response.data ?: emptyList()
+                _reportes.value = response
 
             } catch (e: Exception) {
                 _error.value = "Error: ${e.message}"

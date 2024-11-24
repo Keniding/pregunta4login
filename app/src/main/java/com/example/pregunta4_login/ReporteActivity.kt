@@ -1,32 +1,28 @@
 package com.example.pregunta4_login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pregunta4_login.adapter.IncidenciasAdapter
-import com.example.pregunta4_login.databinding.ActivityIncidenciaBinding
+import com.example.pregunta4_login.databinding.ActivityReporteBinding
 import com.example.pregunta4_login.ui.viewmodel.ReporteViewModel
 
 class ReporteActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityIncidenciaBinding
+    private lateinit var binding: ActivityReporteBinding
+    private lateinit var viewModel: ReporteViewModel
     private lateinit var adapter: IncidenciasAdapter
-    private val viewModel: ReporteViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityIncidenciaBinding.inflate(layoutInflater)
+        binding = ActivityReporteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-
         setupRecyclerView()
+        setupViewModel()
         setupSwipeRefresh()
-        observeViewModel()
-
-        viewModel.cargarReportes()
     }
 
     private fun setupRecyclerView() {
@@ -34,19 +30,16 @@ class ReporteActivity : AppCompatActivity() {
         binding.rvIncidencias.apply {
             layoutManager = LinearLayoutManager(this@ReporteActivity)
             adapter = this@ReporteActivity.adapter
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 
-    private fun setupSwipeRefresh() {
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.cargarReportes()
-        }
-    }
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[ReporteViewModel::class.java]
 
-    private fun observeViewModel() {
         viewModel.reportes.observe(this) { reportes ->
+            Log.d("ReporteActivity", "Recibidos ${reportes.size} reportes")
             adapter.setIncidencias(reportes)
+            binding.tvError.visibility = View.GONE
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -56,13 +49,21 @@ class ReporteActivity : AppCompatActivity() {
 
         viewModel.error.observe(this) { error ->
             error?.let {
+                Log.e("ReporteActivity", "Error: $it")
                 binding.tvError.apply {
                     text = it
                     visibility = View.VISIBLE
                 }
-            } ?: run {
-                binding.tvError.visibility = View.GONE
             }
+        }
+
+        // Cargar los reportes
+        viewModel.cargarReportes()
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.cargarReportes()
         }
     }
 }

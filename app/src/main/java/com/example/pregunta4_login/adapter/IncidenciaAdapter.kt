@@ -7,19 +7,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pregunta4_login.R
 import com.example.pregunta4_login.models.Incidencia
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class IncidenciasAdapter : RecyclerView.Adapter<IncidenciasAdapter.IncidenciaViewHolder>() {
-
     private var incidencias: List<Incidencia> = emptyList()
 
-    fun setIncidencias(incidencias: List<Incidencia>) {
-        this.incidencias = incidencias
+    fun setIncidencias(nuevasIncidencias: List<Incidencia>) {
+        incidencias = nuevasIncidencias
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncidenciaViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_reporte, parent, false)
+            .inflate(R.layout.item_incidencia, parent, false)
         return IncidenciaViewHolder(view)
     }
 
@@ -31,18 +32,43 @@ class IncidenciasAdapter : RecyclerView.Adapter<IncidenciasAdapter.IncidenciaVie
     override fun getItemCount() = incidencias.size
 
     class IncidenciaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvIncidenciaId: TextView = itemView.findViewById(R.id.tvIncidenciaId)
-        private val tvFecha: TextView = itemView.findViewById(R.id.tvFecha)
-        private val tvArea: TextView = itemView.findViewById(R.id.tvArea)
-        private val tvDni: TextView = itemView.findViewById(R.id.tvDni)
+        private val tvIdIncidencia: TextView = itemView.findViewById(R.id.tvIdIncidencia)
+        private val tvIdArea: TextView = itemView.findViewById(R.id.ivArea)
+        private val tvNombreArea: TextView = itemView.findViewById(R.id.tvNombreArea)
+        private val tvFechaCreacion: TextView = itemView.findViewById(R.id.tvFechaCreacion)
         private val tvDescripcion: TextView = itemView.findViewById(R.id.tvDescripcion)
 
         fun bind(incidencia: Incidencia) {
-            tvIncidenciaId.text = "Incidencia #${incidencia.idIncidencia}"
-            tvFecha.text = incidencia.fechaCreacion
-            tvArea.text = "Área: ${incidencia.area?.nombre ?: "No especificada"}"
-            tvDni.text = "DNI: ${incidencia.dni}"
-            tvDescripcion.text = incidencia.detalleIncidencia?.descripcion ?: "Sin descripción"
+            try {
+                // IDs
+                tvIdIncidencia.text = incidencia.idIncidencia.toString()
+                tvIdArea.text = incidencia.idArea.toString()
+
+                // Área
+                val area = incidencia.area.firstOrNull()
+                tvNombreArea.text = area?.nombre ?: "Área no especificada"
+
+                // Fecha formateada
+                tvFechaCreacion.text = formatearFecha(incidencia.fechaCreacion)
+
+                // Descripción detallada de la incidencia
+                val descripcion = incidencia.detalleIncidencia.firstOrNull()?.descripcion
+                tvDescripcion.text = descripcion ?: "Sin descripción"
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        private fun formatearFecha(fechaStr: String): String {
+            return try {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy, HH:mm", Locale("es", "ES"))
+                val fecha = inputFormat.parse(fechaStr)
+                outputFormat.format(fecha!!)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                fechaStr
+            }
         }
     }
 }
